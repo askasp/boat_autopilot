@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>../GUIModule/Images/hyttatilman.png</file>
+        <file>../main.cpp</file>
+        <file>../GUIModule/Images/gps-icon.png</file>
+    </qresource>
+</RCC>

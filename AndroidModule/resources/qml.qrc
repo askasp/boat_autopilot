@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/">
+        <file>../GUIModule/main.qml</file>
+        <file>../GUIModule/functions.js</file>
+        <file>../GUIModule/AutopilotTab.qml</file>
+        <file>../GUIModule/WaypointTab.qml</file>
+        <file>../main.cpp</file>
+    </qresource>
+</RCC>
