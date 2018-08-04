@@ -15,3 +15,5 @@ cp package/busybox/mdev.conf ${TARGET_DIR}/etc/
 cp board/raspberrypi3/interfaces ${TARGET_DIR}/etc/network/interfaces
 cp board/raspberrypi3/wpa_supplicant.conf ${TARGET_DIR}/etc/
 cp board/raspberrypi3/sshd_config ${TARGET_DIR}/etc/ssh/
+#cp board/raspberrypi3/S60Autopilot ${TARGET_DIR}/etc/init.d/
+#chmod 755 ${TARGET_DIR}/etc/init.d/S60Autopilot

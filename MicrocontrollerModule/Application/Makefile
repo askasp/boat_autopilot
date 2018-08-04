@@ -2,8 +2,8 @@ PROJECT := $(notdir $(CURDIR))
 EXCECUTABLE = $(BUILDDIR)/$(PROJECT)
 
 CC := gcc
-CXX := g++
-#CXX := arm-linux-g++
+#CXX := g++
+CXX := arm-linux-g++
 
 SRCDIRS := NetworkModule . MotorModule
 INCDIRS := NetworkModule MotorModule

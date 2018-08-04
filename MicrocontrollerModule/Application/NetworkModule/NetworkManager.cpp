@@ -9,7 +9,7 @@ NetworkManager::NetworkManager(Outbox *mOutbox, Inbox *mInbox)
 {
     isConnected = false;
     std::string noe ="20";
-    IP = "192.168.43.1";  //Simulator variable is set from makefile by changing the compiler
+    IP = "192.168.0.12";  //Simulator variable is set from makefile by changing the compiler
     #ifdef SIMULATOR
         IP="127.0.0.1";
     #endif
