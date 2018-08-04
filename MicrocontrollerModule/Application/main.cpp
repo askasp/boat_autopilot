@@ -16,7 +16,7 @@ void taskScheduler(Inbox* myInbox, Outbox* myOutbox){
     std::string  psi_D;
     std::string  task1;
     StepperMotor myStepper;
-    myOutbox->updateOutbox("10","100");
+    myOutbox->updateOutbox("20","30");
     while(true){
         if (myInbox->isInboxUnread()){
             myInbox->readInbox(psi_D,task1);

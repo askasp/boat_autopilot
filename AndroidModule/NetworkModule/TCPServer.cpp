@@ -2,13 +2,6 @@
 
 string TCPServer::Message;
 
-
-
-//TCPServer::TCPServer(int port, inMessage* m_inMessage,outMessage* m_outMessage){
-//    setup(port);
-//    my_inMessage = m_inMessage;
-//    my_outMessage = m_outMessage;
-//}
     
 void* TCPServer::Task(void *arg)
 {
@@ -64,19 +57,6 @@ void TCPServer::Send(string msg)
 	send(newsockfd,msg.c_str(),msg.length(),0);
 }
 
-//void TCPServer::TCPCommunicationLoop(inMessage *min, outMessage* mout){
-//    std::string test2 = " 30";
-//    int a = 40;
-//    std::string test1 =std::to_string(a);
-//    while(true){
-//        if (Message != "" && Message !=min->rawMsg)
-//        {
-//            min->writeMessage(Message);
-//        }
-//        Send("10 30");
-//        usleep(100);
-//        }
-//}
  
 void TCPServer::clean()
 {

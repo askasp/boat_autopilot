@@ -7,7 +7,6 @@ import QtQuick.Controls 2.3
 import QtPositioning 5.4
 import QtQuick.Controls.Styles 1.4
 import Qt.labs.folderlistmodel 1.0
-//import QtNetworkInterface 1.0
 
 ApplicationWindow {
     id: mainwindow
@@ -60,9 +59,9 @@ ApplicationWindow {
 
     Item{
         Connections {
-            target: myInMessage
-            onMessageChanged: {
-                magHeading = myInMessage.getPsi
+            target: myInbox
+            onInboxUpdated: {
+                magHeading = myInbox.getPsi
             }
         }
     }
@@ -114,7 +113,7 @@ ApplicationWindow {
             text: qsTr("Heading \n Autopilot")
             onClicked:{
                 if(controlActive){
-                    myOutMessage.updateState("AP")
+                    myOutbox.updateState("AP")
                 }
             }
         }
@@ -122,7 +121,7 @@ ApplicationWindow {
             text: qsTr("Waypoint \n tracking")
             onClicked:{
                 if(controlActive){
-                    myOutMessage.updateState("AP")
+                    myOutbox.updateState("AP")
                 }
             }
         }
@@ -157,12 +156,12 @@ ApplicationWindow {
                     onPressed:
                     {
                         if(controlActive){
-                            myOutMessage.updateState("CCW");
+                            myOutbox.updateState("CCW");
                         }
                     }
                     onReleased:{
                         if (controlActive){
-                            myOutMessage.updateState("Hold")
+                            myOutbox.updateState("Hold")
                         }
                     }
 
@@ -177,12 +176,12 @@ ApplicationWindow {
                     onPressed:
                     {
                         if(controlActive){
-                            myOutMessage.updateState("CW");
+                            myOutbox.updateState("CW");
                         }
                     }
                     onReleased:{
                         if (controlActive){
-                            myOutMessage.updateState("Hold")
+                            myOutbox.updateState("Hold")
                         }
                     }
                 }
@@ -341,7 +340,7 @@ ApplicationWindow {
             visible:false
             onClicked:{
                 visible=false
-                myOutMessage.updateState("OFF")
+                myOutbox.updateState("OFF")
                 controlActive = false;
             }
 
@@ -376,7 +375,7 @@ ApplicationWindow {
                 var temp = Qt.point(flick.contentX+flick.width/2,flick.contentY+flick.height/2) 
                 flick.resizeContent(frame.width*1.2,frame.width*1.2, temp);
                 JS.redrawWP()
-                myOutMessage.updateCoordinates(longi,lati);
+                myOutbox.updateCoordinates(longi,lati);
             }
 
         }

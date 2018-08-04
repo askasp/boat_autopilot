@@ -1,8 +1,8 @@
 #include "NetworkManager.h"
 #include <thread>
 
-NetworkManager::NetworkManager(OutMessage *mOutMessage, InMessage *mInMessage)
-    :myOutMessage(mOutMessage),myInMessage(mInMessage)
+NetworkManager::NetworkManager(Outbox *mOutbox, Inbox *mInbox)
+    :myOutbox(mOutbox),myInbox(mInbox)
 {
     isConnected = false;
     myTCPServer.setup(11999);
@@ -10,35 +10,32 @@ NetworkManager::NetworkManager(OutMessage *mOutMessage, InMessage *mInMessage)
     t1.detach();
 }
 
-void  NetworkManager::sendOutMessage(){
-    (myTCPServer.Send(myOutMessage->State + " " + myOutMessage->Psi_d));
+void  NetworkManager::sendOutbox(){
+    (myTCPServer.Send(myOutbox->State + " " + myOutbox->Psi_d));
 }
 
-bool NetworkManager::receivedInMessage(){
+bool NetworkManager::updateInbox(){
     string msg = myTCPServer.getMessage();
     if(msg != ""){
-    
-            std::stringstream ss(msg);
-            std::istream_iterator<std::string> begin(ss);
-            std::istream_iterator<std::string> end;
-            std::vector<std::string> results(begin, end);
-             QString temp = QString::fromStdString(results[0]);
-    QString temp1 = QString::fromStdString(results[1]);
-    myInMessage->Psi = temp.toInt();
-    myInMessage->SteeringAngle=temp1.toInt();
-
-    myInMessage->notifyQML();
-    return true;
+        std::cout << msg << std::endl;
+        std::stringstream ss(msg);
+        std::istream_iterator<std::string> begin(ss);
+        std::istream_iterator<std::string> end;
+        std::vector<std::string> results(begin, end);
+        QString temp = QString::fromStdString(results[0]);
+        QString temp1 = QString::fromStdString(results[1]);
+        myInbox->Psi = temp.toInt();
+        myInbox->SteeringAngle=temp1.toInt();
+        myInbox->notifyQML();
+        return true;
     }
     return false;
 }
-    
 
-
-void NetworkManager::networkLoop(){
+void NetworkManager::RpiCommunicationTask(){
     while(1){
-        if (receivedInMessage()){
-            sendOutMessage();
+        if (updateInbox()){
+            sendOutbox();
         }
         usleep(10000);
     }

@@ -22,8 +22,8 @@ HEADERS += \
 #    qtquickcontrolsapplication.h \
     NetworkModule/TCPServer.h \
     NetworkModule/NetworkManager.h \
-    NetworkModule/OutMessage.h \
-    NetworkModule/InMessage.h \
+    NetworkModule/Outbox.h \
+    NetworkModule/Inbox.h \
 #    car.h \ 
 #    qtquickcontrolsapplication.h
 

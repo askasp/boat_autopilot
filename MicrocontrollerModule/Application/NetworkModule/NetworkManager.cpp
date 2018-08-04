@@ -8,17 +8,16 @@ NetworkManager::NetworkManager(Outbox *mOutbox, Inbox *mInbox)
     :myOutbox(mOutbox),myInbox(mInbox)
 {
     isConnected = false;
-    myOutbox->psiNow = "30";
-    myOutbox->psiFiltered = "20";
+    std::string noe ="20";
     IP = "192.168.43.1";  //Simulator variable is set from makefile by changing the compiler
     #ifdef SIMULATOR
-        IP="127.0.0.1"
+        IP="127.0.0.1";
     #endif
 
 }
 
 bool NetworkManager::sendOutbox(){
-return (myTcpClient.Send(myOutbox->psiNow + " " + myOutbox->psiFiltered));
+return (myTcpClient.Send(myOutbox->getPsiNow() + " " + myOutbox->getPsiFiltered()));
 }
 
 void NetworkManager::updateInbox(){

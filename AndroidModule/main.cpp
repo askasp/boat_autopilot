@@ -10,29 +10,24 @@
 #include <iostream>
 #include <QtQuick>
 #include <thread>
-#include "NetworkModule/OutMessage.h"
+#include "NetworkModule/Outbox.h"
 #include "NetworkModule/NetworkManager.h"
-#include "NetworkModule/InMessage.h"
+#include "NetworkModule/Inbox.h"
 #include <string>
 
 int main(int argc, char *argv[])
 {
 
- //   thread t1(&TCPServer::TCPCommunicationLoop,&myTcpServer,my_Inbox,my_Oubox);
-  //  t1.detach();
-   // thread t2(controlLoop,my_Inbox,my_Oubox);
-   // t2.detach();
-   // myTcpServer.receive();
     
     QGuiApplication app(argc, argv);
-    OutMessage myOutMessage;
-    InMessage myInMessage;
-    NetworkManager myNetworkManager(&myOutMessage,&myInMessage);
-    std::thread t1(&NetworkManager::networkLoop,&myNetworkManager);
+    Outbox myOutbox;
+    Inbox myInbox;
+    NetworkManager myNetworkManager(&myOutbox,&myInbox);
+    std::thread t1(&NetworkManager::RpiCommunicationTask,&myNetworkManager);
     t1.detach();
     QQmlApplicationEngine engine;
-    engine.rootContext()->setContextProperty("myInMessage", &myInMessage);
-    engine.rootContext()->setContextProperty("myOutMessage", &myOutMessage);
+    engine.rootContext()->setContextProperty("myInbox", &myInbox);
+    engine.rootContext()->setContextProperty("myOutbox", &myOutbox);
     
      engine.load(QUrl(QStringLiteral("qrc:/GUIModule/main.qml")));
      if (engine.rootObjects().isEmpty())

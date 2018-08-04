@@ -13,19 +13,19 @@
 #include <string>
 
 
-class  InMessage: public QObject
+class  Inbox: public QObject
 {
 Q_OBJECT
-   Q_PROPERTY(int getPsi READ getPsi WRITE dummywrite NOTIFY messageChanged)
+   Q_PROPERTY(int getPsi READ getPsi WRITE dummywrite NOTIFY inboxUpdated)
     public:
-    explicit InMessage(QObject *parent = nullptr):QObject(parent){
+    explicit Inbox(QObject *parent = nullptr):QObject(parent){
     }
-        virtual ~InMessage(){
+        virtual ~Inbox(){
         };
         std::mutex InboxMutex;
         int Psi;
         int SteeringAngle;
-        int someting;
+        bool isConnected;
 
         void dummywrite(int k){
         }
@@ -36,14 +36,17 @@ Q_OBJECT
         Q_INVOKABLE int getSteeringAngle(){
             return SteeringAngle;
         }
+        Q_INVOKABLE bool IsConnected(){
+            return isConnected;
+        }
 
         Q_INVOKABLE void notifyQML(){
-            emit messageChanged();
+            emit inboxUpdated();
         }
 
 
 signals:
-      void messageChanged();
+      void inboxUpdated();
     };
 
 

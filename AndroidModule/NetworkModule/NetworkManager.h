@@ -1,5 +1,5 @@
-#include "OutMessage.h"
-#include "InMessage.h"
+#include "Outbox.h"
+#include "Inbox.h"
 #include <vector>
 #include <string>
 #include "TCPServer.h"
@@ -8,16 +8,14 @@
 
 class NetworkManager{
     public:
-        NetworkManager(OutMessage *mOutMessage, InMessage *mInMessage);
-       void networkLoop();
+        NetworkManager(Outbox *mOutbox, Inbox *mInbox);
+       void RpiCommunicationTask();
 
     private:
-        OutMessage *myOutMessage;
-        InMessage *myInMessage;
-        void sendOutMessage();
-        bool receivedInMessage();
-        void connect(string IP);
-//        TCPClient myTcpClient;
+        Outbox *myOutbox;
+        Inbox *myInbox;
+        void sendOutbox();
+        bool updateInbox();
         TCPServer myTCPServer;
         bool isConnected;
         std::mutex write;

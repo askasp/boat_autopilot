@@ -16,8 +16,6 @@
 #include <mutex>
 #include<sstream>
 #include <iterator>
-#include "InMessage.h"
-#include "OutMessage.h"
 
 using namespace std;
 
@@ -26,7 +24,6 @@ using namespace std;
 class TCPServer
 {
 	public:
-//	TCPServer(int port, inMessage* m_inMessage,outMessage* m_outMessage);
 	int sockfd, newsockfd, n, pid;
 	struct sockaddr_in serverAddress;
 	struct sockaddr_in clientAddress;
@@ -41,10 +38,7 @@ class TCPServer
 	void detach();
 	void clean();
 
-    //void TCPCommunicationLoop(inMessage* min, outMessage* mout);
 	private:
-//	inMessage *my_inMessage;
-//	outMessage *my_outMessage;
 	static void * Task(void * argv);
 };
 
