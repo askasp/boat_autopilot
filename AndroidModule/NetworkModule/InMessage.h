@@ -7,7 +7,6 @@
 #include <QDebug>
 #include <signal.h>
 #include <thread>
-#include "TCPClient.h"
 #include <QDebug>
 #include <mutex>
 #include <QString>

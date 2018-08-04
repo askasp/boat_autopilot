@@ -16,8 +16,8 @@
 #include <mutex>
 #include<sstream>
 #include <iterator>
-#include "inMessage.h"
-#include "outMessage.h"
+#include "InMessage.h"
+#include "OutMessage.h"
 
 using namespace std;
 
@@ -41,10 +41,10 @@ class TCPServer
 	void detach();
 	void clean();
 
-    void TCPCommunicationLoop(inMessage* min, outMessage* mout);
+    //void TCPCommunicationLoop(inMessage* min, outMessage* mout);
 	private:
-	inMessage *my_inMessage;
-	outMessage *my_outMessage;
+//	inMessage *my_inMessage;
+//	outMessage *my_outMessage;
 	static void * Task(void * argv);
 };
 

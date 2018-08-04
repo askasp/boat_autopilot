@@ -4,6 +4,7 @@
 #include<QDebug>
 #include <QQmlContext>
 #include <QtPositioning/QGeoPositionInfoSource>
+#include <QNetworkInterface>
 //#include <QQuickItem>
 #include <QPropertyAnimation>
 #include <iostream>
@@ -17,19 +18,21 @@
 int main(int argc, char *argv[])
 {
 
+ //   thread t1(&TCPServer::TCPCommunicationLoop,&myTcpServer,my_Inbox,my_Oubox);
+  //  t1.detach();
+   // thread t2(controlLoop,my_Inbox,my_Oubox);
+   // t2.detach();
+   // myTcpServer.receive();
     
     QGuiApplication app(argc, argv);
     OutMessage myOutMessage;
     InMessage myInMessage;
-    int IP1;
     NetworkManager myNetworkManager(&myOutMessage,&myInMessage);
     std::thread t1(&NetworkManager::networkLoop,&myNetworkManager);
     t1.detach();
-
     QQmlApplicationEngine engine;
     engine.rootContext()->setContextProperty("myInMessage", &myInMessage);
     engine.rootContext()->setContextProperty("myOutMessage", &myOutMessage);
-//    engine.rootContext()->setContextProperty("IP1", &IP1);
     
      engine.load(QUrl(QStringLiteral("qrc:/GUIModule/main.qml")));
      if (engine.rootObjects().isEmpty())

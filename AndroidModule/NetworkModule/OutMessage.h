@@ -7,16 +7,10 @@
 #include <QDebug>
 #include <signal.h>
 #include <thread>
-#include "TCPClient.h"
 #include <QDebug>
 #include <mutex>
 #include <QString>
 #include <string>
-
-struct InMsg{
-    string Psi;
-    string SteeringAngle;
-};
 
 
 class OutMessage : public QObject
@@ -67,13 +61,13 @@ class OutMessage : public QObject
             OutboxMutex.unlock();
         }
 
-        string State = "OFF";
-        string Type = "Manual";
-        string StepperRotation = "Hold";
-        string SteeringAngle_d = "0";
-        string Psi_d = "0";
-        string Latitude = "0";
-        string Longtitude ="0";
+        std::string State = "OFF";
+        std::string Type = "Manual";
+        std::string StepperRotation = "Hold";
+        std::string SteeringAngle_d = "0";
+        std::string Psi_d = "0";
+        std::string Latitude = "0";
+        std::string Longtitude ="0";
         QString tmp;
 };
 

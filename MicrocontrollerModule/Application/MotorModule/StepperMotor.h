@@ -3,8 +3,8 @@
 #include <iostream>
 #include <cstdlib>
 #include <mutex>
-#include "../NetworkModule/inMessage.h"
-#include "../NetworkModule/outMessage.h"
+#include "../NetworkModule/Inbox.h"
+#include "../NetworkModule/Outbox.h"
 #include <unistd.h>
 
 
@@ -22,8 +22,8 @@ class StepperMotor
     public:
     StepperMotor();
     void turnOff();
-    void turnClockwise(inMessage* my_inMessage);
-    void turnCounterClockwise(inMessage* my_inMessage);
+    void turnClockwise(Inbox* myInbox);
+    void turnCounterClockwise(Inbox* myInbox);
 };
 
 

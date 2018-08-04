@@ -1,19 +1,21 @@
-#include "TCPClient.h"
 #include "NetworkManager.h"
-#include <string>
-#include <sstream>
+#include <thread>
 
-NetworkManager::NetworkManager(OutMessage *mOutMessage, InMessage *mInMessage):myOutMessage(mOutMessage),myInMessage(mInMessage)
+NetworkManager::NetworkManager(OutMessage *mOutMessage, InMessage *mInMessage)
+    :myOutMessage(mOutMessage),myInMessage(mInMessage)
 {
     isConnected = false;
+    myTCPServer.setup(11999);
+    std::thread t1(&TCPServer::receive,&myTCPServer);
+    t1.detach();
 }
 
-bool NetworkManager::sendOutMessage(){
-return (myTcpClient.Send(myOutMessage->State + " " + myOutMessage->Psi_d));
+void  NetworkManager::sendOutMessage(){
+    (myTCPServer.Send(myOutMessage->State + " " + myOutMessage->Psi_d));
 }
 
-void NetworkManager::receiveInMessage(){
-    string msg = myTcpClient.receive();
+bool NetworkManager::receivedInMessage(){
+    string msg = myTCPServer.getMessage();
     if(msg != ""){
     
             std::stringstream ss(msg);
@@ -26,35 +28,21 @@ void NetworkManager::receiveInMessage(){
     myInMessage->SteeringAngle=temp1.toInt();
 
     myInMessage->notifyQML();
+    return true;
     }
+    return false;
 }
     
 
-void NetworkManager::connect(string IP){
-    while(!isConnected){ 
-    if(myTcpClient.setup("127.0.0.1",11999))
-    {
-    isConnected = true;
-    }
-    sleep(1);
-    }
-}
 
 void NetworkManager::networkLoop(){
-    connect("hei");
- 
     while(1){
-        if (!sendOutMessage()){
-            isConnected =false;
-            myTcpClient.closeSocket();
-            connect("hei");
+        if (receivedInMessage()){
             sendOutMessage();
-        } 
-        receiveInMessage();
+        }
         usleep(10000);
     }
 }
-
 
 
 

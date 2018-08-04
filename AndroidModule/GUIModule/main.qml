@@ -7,6 +7,7 @@ import QtQuick.Controls 2.3
 import QtPositioning 5.4
 import QtQuick.Controls.Styles 1.4
 import Qt.labs.folderlistmodel 1.0
+//import QtNetworkInterface 1.0
 
 ApplicationWindow {
     id: mainwindow

@@ -1,33 +1,34 @@
 #include <iostream>
 
-#include "NetworkModule/TCPServer.h"
+#include "NetworkModule/TCPClient.h"
 #include <thread>
 #include <sys/wait.h>
 #include <string>
 #include <vector>
 #include "MotorModule/StepperMotor.h"
 #include <mutex>
-#include"NetworkModule/inMessage.h"
-#include"NetworkModule/outMessage.h"
+#include"NetworkModule/Inbox.h"
+#include"NetworkModule/Outbox.h"
+#include "NetworkModule/NetworkManager.h"
 
 
-void controlLoop(inMessage* my_inMessage, outMessage* my_outMessage){
+void taskScheduler(Inbox* myInbox, Outbox* myOutbox){
     std::string  psi_D;
     std::string  task1;
-    StepperMotor step;
-    my_outMessage->writeMessage("10","100");
+    StepperMotor myStepper;
+    myOutbox->updateOutbox("10","100");
     while(true){
-        if (my_inMessage->getReceivedNewMessage() == true){
-            my_inMessage->readMessage(psi_D,task1);
+        if (myInbox->isInboxUnread()){
+            myInbox->readInbox(psi_D,task1);
             if (task1 == "OFF"){
                 
-                step.turnOff();
+                myStepper.turnOff();
             }
             else if(task1 == "CW"){
-                step.turnClockwise(my_inMessage);
+                myStepper.turnClockwise(myInbox);
             }
             else if(task1 ==  "CCW"){
-                step.turnCounterClockwise(my_inMessage);
+                myStepper.turnCounterClockwise(myInbox);
             }
             else if(task1 == "Hold")
             {
@@ -43,18 +44,16 @@ void controlLoop(inMessage* my_inMessage, outMessage* my_outMessage){
 
 int main()
 {
-    TCPServer myTcpServer;
-    inMessage* my_inMessage = new inMessage();
-    outMessage* my_outMessage = new outMessage();
- 
-    //TCPServer myTcpServer = new TCPServer(11999,my_inMessage,my_outMessage);
-    //TCPServer *myTcpServer = new TCPServer();
-    myTcpServer.setup(11999);
-    thread t1(&TCPServer::TCPCommunicationLoop,&myTcpServer,my_inMessage,my_outMessage);
+    TCPClient myTcpClient;
+    Outbox myOutbox;
+    Inbox myInbox;
+    NetworkManager myNetworkManager(&myOutbox,&myInbox);
+    std::thread t1(&NetworkManager::androidCommunicationTask,&myNetworkManager);
     t1.detach();
-    //thread t2(receiveWrapper);
-    thread t2(controlLoop,my_inMessage,my_outMessage);
+    thread t2(taskScheduler,&myInbox,&myOutbox);
     t2.detach();
-    myTcpServer.receive();
-
+    while (true){
+        usleep(100);
     }
+
+}

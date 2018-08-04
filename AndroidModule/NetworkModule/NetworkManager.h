@@ -2,6 +2,8 @@
 #include "InMessage.h"
 #include <vector>
 #include <string>
+#include "TCPServer.h"
+#include <sstream>
 
 
 class NetworkManager{
@@ -12,10 +14,11 @@ class NetworkManager{
     private:
         OutMessage *myOutMessage;
         InMessage *myInMessage;
-        bool sendOutMessage();
-        void receiveInMessage();
+        void sendOutMessage();
+        bool receivedInMessage();
         void connect(string IP);
-        TCPClient myTcpClient;
+//        TCPClient myTcpClient;
+        TCPServer myTCPServer;
         bool isConnected;
         std::mutex write;
         std::mutex read;

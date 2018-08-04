@@ -20,22 +20,22 @@ void StepperMotor::turnOff(){
         digitalWrite(enablePin,HIGH);
     }
 
-void StepperMotor::turnClockwise(inMessage* my_inMessage){
+void StepperMotor::turnClockwise(Inbox* myInbox){
         digitalWrite(enablePin,LOW);
         digitalWrite(directionPin,LOW);
         while(true){
-            if (my_inMessage->getReceivedNewMessage() == true){
+            if (myInbox->isInboxUnread()){
                 return;
             }
             digitalWrite (pulsePin, HIGH) ; usleep(1000); //delay (1) ;
             digitalWrite (pulsePin,  LOW) ; usleep(1000);////delay (1) ;
         }
     }
-void StepperMotor::turnCounterClockwise(inMessage* my_inMessage){
+void StepperMotor::turnCounterClockwise(Inbox* myInbox){
         digitalWrite(enablePin,LOW);
         digitalWrite(directionPin,HIGH);
         while(true){
-            if (my_inMessage->getReceivedNewMessage() == true){
+            if (myInbox->isInboxUnread()){
                 return;
             }
             digitalWrite (pulsePin, HIGH) ; usleep(1000);//delay (1) ;
