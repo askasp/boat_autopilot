@@ -4,6 +4,7 @@ Consists of Android application, RPI3 application a stepper motor
 and a driver
 
 
+
 ## Equipment 
 Raspberry pi3
 23 Nema Stepper motor
@@ -13,26 +14,28 @@ M542T Motor driver
 ### Wiring
 Later
 
-
-## Software 
-### Simulator
-#### Android part
+## Running Simulation
+### Android part
+```
 Open a terminal
 cd AndroidModule
 qmake Autopilot.pro
 make
 ./debug/Autopilot
+```
 
 ### Microcontroller part
+```
 Open a new terminal
 cd MicrocontrollerModule/Application/
 edit Makefile to have CXX = g++ (comment out CXX = arm-linux g++ with #)
 make
 ./build/Application
+```
 
+## Software 
 
-### Overview
-#### AndroidModule
+### AndroidModule
 The androidmodule runs on a phone (Or the pc during simulation)
 It is responsible for showing the map, the location of the android device running It,
 as well as taking user input to send to the uC.
@@ -58,6 +61,52 @@ When messages are received they are written to the Inbox. The member of the Inbo
 is currently the measured heading
 The Outbox class consists of the desired State (Off, Hold, Clockwiseturn,CounterClockwiseTurn, 
 Autopilot) and the desired heading. The later is only used when the desired state = Autopilot
+
+
+### MicrocontrollerModule/Application
+The MicrocontrollerModule should connect to the TCPserver created
+by the androidmodule, receive messages from the Android phone and
+turn the stepper motor accordingly. Also it should read and filter data
+from a magnetometer to calculate the heading (not implemented)
+
+
+#### Main.cpp
+Creates the Inbox and Outbox and networkmanager objects.
+Starts the networkmanager task which communicates with the android.
+Starts the controlTask which uses the messages received to carry out 
+commands on the stepper motor
+
+
+
+#### NetworkModule
+Sets up a TCPClient which connects to the TCPServer created by the android module.
+IF simulation is set in the makefile (CXX=g++) then the ip it connects to is
+the 127.0.0.1 (local ip), else it is Android hotspot default ip (192.168.43.1).
+In case of a disconnection it will try to reconneect until succeeded. 
+Sends Outbox which consists of the calculated heading (Not yet implemented)
+and reads the task and desired heading and writes it to the Inbox.
+
+
+#### MotorModule
+Uses the WiringPi library to initialise the GPIO on the raspberry pi.
+By toggling the pulse pin the stepper motor moves one step. For now only 
+turnign is implemented. Ie. the module does not remember how many steps it has taken 
+(most be implemnted for an autoplot)
+
+
+#### SimulatorModule
+The wiringPi library speaks directly to the Hardware on the rpi.
+This is done by the commands pinMode, digitaWrite and wiringPiSetup.
+IF simulator is defined theese functiosn are overloaded to basic print
+functions so the program can be tested on a computer which doesn't have the necessary hardware
+
+
+
+
+
+
+
+
 
 
 

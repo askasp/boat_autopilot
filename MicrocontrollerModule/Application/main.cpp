@@ -12,7 +12,7 @@
 #include "NetworkModule/NetworkManager.h"
 
 
-void taskScheduler(Inbox* myInbox, Outbox* myOutbox){
+void controlTask(Inbox* myInbox, Outbox* myOutbox){
     std::string  psi_D;
     std::string  task1;
     StepperMotor myStepper;
@@ -44,13 +44,12 @@ void taskScheduler(Inbox* myInbox, Outbox* myOutbox){
 
 int main()
 {
-    TCPClient myTcpClient;
     Outbox myOutbox;
     Inbox myInbox;
     NetworkManager myNetworkManager(&myOutbox,&myInbox);
     std::thread t1(&NetworkManager::androidCommunicationTask,&myNetworkManager);
     t1.detach();
-    thread t2(taskScheduler,&myInbox,&myOutbox);
+    thread t2(controlTask,&myInbox,&myOutbox);
     t2.detach();
     while (true){
         usleep(100);
