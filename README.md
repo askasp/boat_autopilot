@@ -22,6 +22,10 @@ cd AndroidModule
 qmake Autopilot.pro
 make
 ./debug/Autopilot
+
+
+Qt linux can be installed by following the guide here
+http://doc.qt.io/qt-5/linux.html
 ```
 
 ### Microcontroller part
