@@ -4,18 +4,18 @@ Consists of Android application, RPI3 application a stepper motor
 and a driver
 
 
-##Equipment 
+## Equipment 
 Raspberry pi3
 23 Nema Stepper motor
 M542T Motor driver
 
 
-###Wiring
+### Wiring
 Later
 
 
-##Software 
-###Simulator
+## Software 
+### Simulator
 #### Android part
 Open a terminal
 cd AndroidModule
@@ -31,9 +31,8 @@ make
 ./build/Application
 
 
-
-###Overview
-####AndroidModule
+### Overview
+#### AndroidModule
 The androidmodule runs on a phone (Or the pc during simulation)
 It is responsible for showing the map, the location of the android device running It,
 as well as taking user input to send to the uC.
@@ -43,11 +42,11 @@ or setting waypoints to follow (not implemented on uC side).
 From the uC it receives the heading from a magnetometer (not implemented)
 The androidmodule consits of the following parts
 
-#####Main.cpp
+#### Main.cpp
 Starts the networkmodule and guimodule as well as defining the objects (Outbox
 and inbox) that are shared between them.
 
-##### GUIModule
+#### GUIModule
 Responsible for all that is drawn to screen. Most of the code is written in main.qml.
 Input to main.qml are pointers to the Inbox and Outbox handled by the NetworkModule.
 
